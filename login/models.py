@@ -56,6 +56,8 @@ class UserManager(BaseUserManager):
 # ✅ Custom User Model
 class User(AbstractUser):
     email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     # ✅ Allow `company` to be NULL for superusers
     company = models.ForeignKey(
@@ -81,3 +83,15 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="profiles")
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profiles")
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
