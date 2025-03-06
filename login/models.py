@@ -86,10 +86,12 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    company = models.ForeignKey(User, on_delete=models.CASCADE)
-    username = models.CharField(max_length=50 , unique= True)
-    phone_number = models.IntegerField(unique=True)
-    role = models.ForeignKey(User, on_delete=models.CASCADE , null= True , blank= True)
-    email = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.ForeignKey(User , on_delete=models.CASCADE)
-    modified_at = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="profiles")
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profiles")
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username

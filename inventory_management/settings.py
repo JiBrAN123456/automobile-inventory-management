@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     "login",
+    'inventory',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

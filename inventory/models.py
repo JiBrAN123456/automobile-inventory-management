@@ -1,6 +1,6 @@
 from django.db import models
 from login.models import Company , User
-
+from django.utils.timezone import now
 
 class VehicleMaster(models.Model):
     brand = models.CharField(max_length=100)  # e.g., Toyota, BMW
@@ -29,6 +29,7 @@ class CompanyInventory(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)  
 
     def __str__(self):
         return f"{self.vehicle} - {self.company.name} ({self.quantity})"    
