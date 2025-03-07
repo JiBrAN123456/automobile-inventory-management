@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from login.models import User
+from login.models import User , Profile
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +29,13 @@ class LoginSerializer(serializers.Serializer):
             "user": UserSerializer(user).data
 
         }          
+    
+class ProfileSerializer(serializers.ModelSerializer):
+
+    user_email = serializers.EmailField(source = 'user.email', read_only = True)
+    user_company = serializers.CharField(source = 'user.company.name' , read_only = True)
+    user_role = serializers.CharField(source = "role.name", read_only = True)
+
+    class Meta:
+        model = Profile
+        fields = ["user_email", "user_company", "user_role", "created_at", "modified_at"]

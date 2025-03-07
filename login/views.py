@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import LoginSerializer
+from .models import Profile
+from .serializers import LoginSerializer , ProfileSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -27,3 +28,22 @@ class LogoutView(APIView):
             return Response({"message": "Successfully logged out"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Fetch logged-in user's profile."""
+        user = request.user
+
+        # ✅ Ensure the user has a profile
+        try:
+            profile = user.profile
+        except Profile.DoesNotExist:
+            return Response({"error": "Profile not found"}, status=404)
+
+        # ✅ Serialize profile correctly
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
