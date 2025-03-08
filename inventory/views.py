@@ -21,8 +21,8 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return CompanyInventory.objects.filter(company= self.request.user.company)
     
-    def perform_create(self, serializer):
-        serializer.save(company= self.request.user.company, created_by= self.request.user)
+""" def perform_create(self, serializer):
+        serializer.save(company= self.request.user.company, created_by= self.request.user)"""
 
 
 class VehicleMasterImageViewSet(viewsets.ModelViewSet):
