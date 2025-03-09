@@ -21,6 +21,7 @@ AUTH_USER_MODEL = "login.User"
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
+    "django_filters",
     "login",
     'inventory',
     "django.contrib.admin",
@@ -36,6 +37,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+
 }
 
 MIDDLEWARE = [
@@ -118,7 +122,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 #jwt stuff
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,

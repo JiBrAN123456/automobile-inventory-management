@@ -58,7 +58,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    phone_number = models.IntegerField()
+    phone_number = models.IntegerField(blank=True,null=True)
     # ✅ Allow `company` to be NULL for superusers
     company = models.ForeignKey(
         Company, 
@@ -88,8 +88,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+  
   
 
 
