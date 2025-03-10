@@ -85,31 +85,25 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
         
         queryset = CompanyInventory.objects.filter(company=self.request.user.company)
         
+        min_year = self.request.query_params.get("vehicle__year__gte")
+        max_year = self.request.query_params.get("vehicle__year__lte")
 
-        min_price = self.request.query_params.get("price__gte")
-        max_price = self.request.query_params.get("price__lte")
+        if min_year:
+            queryset = queryset.filter(vehicle__year__gte=min_year)
+        if max_year:
+            queryset = queryset.filter(vehicle__year__lte=max_year)
 
-        if min_price:
-            try:
-                min_price = float(min_price)
-                queryset = queryset.filter(price__gte=min_price)
-            except ValueError:
-                pass
-
-
-        if max_price:
-            try:
-                max_price = float(max_price)
-                queryset = queryset.filter(price__lte= max_price) 
-            except ValueError:
-                pass
-
+        # ✅ Search Fix (Case-insensitive)
+        search_query = self.request.query_params.get("search")
+        if search_query:
+            queryset = queryset.filter(
+                Q(vehicle__brand__icontains=search_query) | Q(vehicle__model__icontains=search_query)
+            )
 
         return queryset
 
-
-    def perform_create(self, serializer):
-        serializer.save(company=self.request.user.company , created_by = self.request.user)               
+   # def perform_create(self, serializer):
+     #   serializer.save(company=self.request.user.company , created_by = self.request.user)               
 
 
 
