@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django_filters",
     "login",
     'inventory',
+    #'corsheaders',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +44,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+   # 'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
