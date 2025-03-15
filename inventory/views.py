@@ -84,7 +84,7 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
     ordering_fields = ["price", "quantity", "created_by__first_name", "created_by__last_name"]
 
 
-    search_fields = ["vehicle__brand", "vehicle__model", "created_by__first_name", "created_by__last_name"]
+    search_fields = ["vehicle__brand", "vehicle__model", "created_by__first_name", "created_by__last_name",  "created_by__phone_number"]
 
     
     def get_queryset(self):
@@ -106,7 +106,9 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
                 Q(vehicle__brand__icontains=search_query) | 
                 Q(vehicle__model__icontains=search_query) |
                 Q(created_by__first_name__icontains=search_query) | 
-                Q(created_by__last_name__icontains=search_query)
+                Q(created_by__last_name__icontains=search_query)|
+                Q(created_by__phone_number__icontains=search_query)
+
             )
 
         return queryset
