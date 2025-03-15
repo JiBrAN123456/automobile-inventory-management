@@ -7,6 +7,10 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
 ALLOWED_HOSTS = [os.getenv("Frontend_URL", "*"), "127.0.0.1", "localhost"]
 
 DEBUG = True

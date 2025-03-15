@@ -76,10 +76,16 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
     pagination_class = VehiclePagination 
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
 
-    filterset_fields = ["vehicle__brand", "vehicle__year", "vehicle__fuel_type", "price", "quantity"]
-    ordering_fields = ["price", "quantity"]
-    search_fields = ["vehicle__brand", "vehicle__model"]
+    filterset_fields = [
+        "vehicle__brand", "vehicle__year", "vehicle__fuel_type", "price", "quantity",
+        "created_by__first_name", "created_by__last_name", "created_by__email", "created_by__phone_number"]
     
+
+    ordering_fields = ["price", "quantity", "created_by__first_name", "created_by__last_name"]
+
+
+    search_fields = ["vehicle__brand", "vehicle__model", "created_by__first_name", "created_by__last_name"]
+
     
     def get_queryset(self):
         
@@ -97,7 +103,10 @@ class CompanyInventoryViewSet(viewsets.ModelViewSet):
         search_query = self.request.query_params.get("search")
         if search_query:
             queryset = queryset.filter(
-                Q(vehicle__brand__icontains=search_query) | Q(vehicle__model__icontains=search_query)
+                Q(vehicle__brand__icontains=search_query) | 
+                Q(vehicle__model__icontains=search_query) |
+                Q(created_by__first_name__icontains=search_query) | 
+                Q(created_by__last_name__icontains=search_query)
             )
 
         return queryset
