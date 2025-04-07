@@ -45,6 +45,8 @@ class CompanyInventorySerializer(serializers.ModelSerializer):
     images = CompanyInventoryImageSerializer(many=True, read_only=True)  # Include images
     documents = VehicleDocumentSerializer(many=True, read_only=True)  # Include documents
 
+
+# Note to self change fields to custom and remove id it will make the output look better
     class Meta:
         model = CompanyInventory
         fields = "__all__"
