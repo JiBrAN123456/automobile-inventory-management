@@ -35,7 +35,13 @@ class ProfileSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(source = 'user.email', read_only = True)
     user_company = serializers.CharField(source = 'user.company.name' , read_only = True)
     user_role = serializers.CharField(source = "role.name", read_only = True)
-
+    phone_number = serializers.CharField(source="user.phone_number", read_only=True) 
+    
     class Meta:
         model = Profile
-        fields = ["user_email", "user_company", "user_role", "created_at", "modified_at"]
+        fields = ["user" ,"user_email", "user_company", "user_role", "phone_number" , "created_at", "modified_at"]
+
+
+
+
+
